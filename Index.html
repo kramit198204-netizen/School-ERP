@@ -1,0 +1,2821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xpertcoptech School ERP Pro | RS TechnoVisions</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #c0392b;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        /* Brand Header */
+        .brand-header {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+            padding: 15px 0;
+            box-shadow: var(--shadow);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-circle {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .logo-circle i {
+            font-size: 24px;
+            color: #1a237e;
+        }
+        
+        .brand-text h1 {
+            font-size: 22px;
+            margin: 0;
+            font-weight: 700;
+        }
+        
+        .brand-text p {
+            font-size: 12px;
+            opacity: 0.9;
+            margin: 0;
+        }
+        
+        .published-by {
+            background: #ff9800;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        /* Main Container */
+        .main-container {
+            margin-top: 100px;
+            padding: 20px;
+            min-height: calc(100vh - 100px);
+        }
+        
+        /* Dashboard Cards */
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid var(--secondary);
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .card-stat {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .card-title {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Navigation Tabs */
+        .nav-tabs-custom {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        .nav-tabs-custom .nav-link {
+            border: none;
+            color: #666;
+            font-weight: 500;
+            padding: 12px 25px;
+            border-radius: 10px;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .nav-tabs-custom .nav-link.active {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .nav-tabs-custom .nav-link:hover:not(.active) {
+            background: var(--light);
+            color: var(--primary);
+        }
+        
+        /* Module Content */
+        .module-content {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            min-height: 500px;
+            display: none;
+        }
+        
+        .module-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Forms */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-control-custom {
+            border: 2px solid #e1e5eb;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .form-control-custom:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .btn-custom {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-success-custom {
+            background: linear-gradient(135deg, var(--success), #2ecc71);
+        }
+        
+        .btn-danger-custom {
+            background: linear-gradient(135deg, var(--danger), #e74c3c);
+        }
+        
+        .btn-warning-custom {
+            background: linear-gradient(135deg, var(--warning), #f1c40f);
+        }
+        
+        /* Tables */
+        .table-custom {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .table-custom thead {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .table-custom th {
+            border: none;
+            padding: 15px;
+            font-weight: 600;
+        }
+        
+        .table-custom td {
+            padding: 15px;
+            vertical-align: middle;
+        }
+        
+        .table-custom tbody tr {
+            transition: background 0.3s;
+        }
+        
+        .table-custom tbody tr:hover {
+            background: var(--light);
+        }
+        
+        /* Badges */
+        .badge-custom {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background: rgba(39, 174, 96, 0.1);
+            color: var(--success);
+        }
+        
+        .badge-warning {
+            background: rgba(243, 156, 18, 0.1);
+            color: var(--warning);
+        }
+        
+        .badge-danger {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--danger);
+        }
+        
+        .badge-info {
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--secondary);
+        }
+        
+        /* Progress Bars */
+        .progress-custom {
+            height: 10px;
+            border-radius: 5px;
+            background: #e1e5eb;
+            overflow: hidden;
+        }
+        
+        .progress-bar-custom {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            border-radius: 5px;
+        }
+        
+        /* Chatbot */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            overflow: hidden;
+            display: none;
+        }
+        
+        .chatbot-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .chatbot-body {
+            max-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .message.user {
+            align-items: flex-end;
+        }
+        
+        .message.bot {
+            align-items: flex-start;
+        }
+        
+        .message-content {
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        
+        .message.user .message-content {
+            background: var(--secondary);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message.bot .message-content {
+            background: var(--light);
+            color: var(--dark);
+            border-bottom-left-radius: 5px;
+        }
+        
+        .chat-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #eee;
+            gap: 10px;
+        }
+        
+        .chat-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            z-index: 999;
+        }
+        
+        /* Login Modal */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .login-box {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        
+        .login-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .brand-text h1 {
+                font-size: 18px;
+            }
+            
+            .module-content {
+                padding: 15px;
+            }
+            
+            .chatbot-widget {
+                width: calc(100% - 40px);
+                right: 20px;
+                bottom: 90px;
+            }
+            
+            .nav-tabs-custom .nav-link {
+                padding: 10px 15px;
+                font-size: 14px;
+                margin-bottom: 5px;
+            }
+        }
+        
+        /* Animation */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Utility Classes */
+        .text-primary { color: var(--primary) !important; }
+        .text-secondary { color: var(--secondary) !important; }
+        .text-success { color: var(--success) !important; }
+        .text-warning { color: var(--warning) !important; }
+        .text-danger { color: var(--danger) !important; }
+        
+        .bg-primary { background: var(--primary) !important; }
+        .bg-secondary { background: var(--secondary) !important; }
+        .bg-success { background: var(--success) !important; }
+        .bg-warning { background: var(--warning) !important; }
+        .bg-danger { background: var(--danger) !important; }
+        
+        .mb-20 { margin-bottom: 20px !important; }
+        .mt-20 { margin-top: 20px !important; }
+        .mb-30 { margin-bottom: 30px !important; }
+        .mt-30 { margin-top: 30px !important; }
+    </style>
+</head>
+<body>
+    <!-- Brand Header -->
+    <div class="brand-header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="brand-logo">
+                    <div class="logo-circle">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="brand-text">
+                        <h1>Xpertcoptech School ERP Pro</h1>
+                        <p>Complete School Management Solution with AI Integration</p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="published-by">Published by: RS TechnoVisions</div>
+                    <button class="btn-custom btn-sm" onclick="showLogin()">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <div class="container">
+            <!-- Dashboard Stats -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="dashboard-card">
+                        <div class="card-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="card-stat" id="totalStudents">1,250</div>
+                        <div class="card-title">Total Students</div>
+                        <div class="progress-custom mt-2">
+                            <div class="progress-bar-custom" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="dashboard-card">
+                        <div class="card-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="card-stat" id="totalTeachers">85</div>
+                        <div class="card-title">Total Teachers</div>
+                        <div class="progress-custom mt-2">
+                            <div class="progress-bar-custom" style="width: 92%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="dashboard-card">
+                        <div class="card-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="card-stat" id="attendanceRate">94%</div>
+                        <div class="card-title">Today's Attendance</div>
+                        <div class="progress-custom mt-2">
+                            <div class="progress-bar-custom" style="width: 94%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="dashboard-card">
+                        <div class="card-icon">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <div class="card-stat" id="feeCollection">₹8.5L</div>
+                        <div class="card-title">Fee Collection</div>
+                        <div class="progress-custom mt-2">
+                            <div class="progress-bar-custom" style="width: 78%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs" id="mainTabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-module="dashboard">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-module="students">
+                            <i class="fas fa-user-graduate"></i> Students
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-module="teachers">
+                            <i class="fas fa-chalkboard-teacher"></i> Teachers
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-module="attendance">
+                            <i class="fas fa-calendar-check"></i> Attendance
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-module="payroll">
+                            <i class="fas fa-money-check-alt"></i> Payroll
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-module="lms">
+                            <i class="fas fa-book"></i> LMS
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-module="admin">
+                            <i class="fas fa-cog"></i> Admin
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Module Contents -->
+            <div id="moduleContents">
+                <!-- Dashboard Module -->
+                <div class="module-content active" id="dashboardModule">
+                    <h3 class="mb-4"><i class="fas fa-tachometer-alt text-primary"></i> Dashboard Overview</h3>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="dashboard-card mb-4">
+                                <h5>Attendance Overview</h5>
+                                <canvas id="attendanceChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="dashboard-card mb-4">
+                                <h5>Quick Actions</h5>
+                                <div class="d-grid gap-2">
+                                    <button class="btn-custom" onclick="showModule('attendance')">
+                                        <i class="fas fa-calendar-plus"></i> Mark Attendance
+                                    </button>
+                                    <button class="btn-custom btn-success-custom" onclick="showModule('payroll')">
+                                        <i class="fas fa-calculator"></i> Calculate Salary
+                                    </button>
+                                    <button class="btn-custom btn-warning-custom" onclick="showModule('lms')">
+                                        <i class="fas fa-upload"></i> Upload Assignment
+                                    </button>
+                                    <button class="btn-custom btn-danger-custom" onclick="showModule('admin')">
+                                        <i class="fas fa-cog"></i> System Settings
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="dashboard-card">
+                                <h5>Recent Activities</h5>
+                                <div id="recentActivities">
+                                    <!-- Activities will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dashboard-card">
+                                <h5>Upcoming Events</h5>
+                                <div id="upcomingEvents">
+                                    <!-- Events will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Students Module -->
+                <div class="module-content" id="studentsModule">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3><i class="fas fa-user-graduate text-primary"></i> Student Management</h3>
+                        <button class="btn-custom" onclick="addStudent()">
+                            <i class="fas fa-plus"></i> Add Student
+                        </button>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-custom" 
+                                       placeholder="Search students by name, class, or ID"
+                                       onkeyup="searchStudents(this.value)">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control form-control-custom" onchange="filterByClass(this.value)">
+                                <option value="">All Classes</option>
+                                <option>Nursery</option>
+                                <option>KG</option>
+                                <option>1st</option>
+                                <option>2nd</option>
+                                <option>3rd</option>
+                                <option>4th</option>
+                                <option>5th</option>
+                                <option>6th</option>
+                                <option>7th</option>
+                                <option>8th</option>
+                                <option>9th</option>
+                                <option>10th</option>
+                                <option>11th</option>
+                                <option>12th</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control form-control-custom" onchange="filterByStatus(this.value)">
+                                <option value="">All Status</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                                <option value="alumni">Alumni</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-custom">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Class</th>
+                                    <th>Parent</th>
+                                    <th>Contact</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentsTable">
+                                <!-- Students will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Teachers Module -->
+                <div class="module-content" id="teachersModule">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3><i class="fas fa-chalkboard-teacher text-primary"></i> Teacher Management</h3>
+                        <button class="btn-custom" onclick="addTeacher()">
+                            <i class="fas fa-plus"></i> Add Teacher
+                        </button>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-custom" 
+                                       placeholder="Search teachers..."
+                                       onkeyup="searchTeachers(this.value)">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control form-control-custom" onchange="filterByDepartment(this.value)">
+                                <option value="">All Departments</option>
+                                <option>Mathematics</option>
+                                <option>Science</option>
+                                <option>English</option>
+                                <option>Social Studies</option>
+                                <option>Computer Science</option>
+                                <option>Physical Education</option>
+                                <option>Arts</option>
+                                <option>Languages</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control form-control-custom" onchange="filterByDesignation(this.value)">
+                                <option value="">All Designations</option>
+                                <option>Principal</option>
+                                <option>Vice Principal</option>
+                                <option>Senior Teacher</option>
+                                <option>Teacher</option>
+                                <option>Assistant Teacher</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-custom">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Subject</th>
+                                    <th>Qualification</th>
+                                    <th>Experience</th>
+                                    <th>Salary</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="teachersTable">
+                                <!-- Teachers will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Attendance Module -->
+                <div class="module-content" id="attendanceModule">
+                    <h3 class="mb-4"><i class="fas fa-calendar-check text-primary"></i> Attendance System</h3>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <select class="form-control form-control-custom" id="attendanceType">
+                                <option value="student">Student Attendance</option>
+                                <option value="teacher">Teacher Attendance</option>
+                                <option value="staff">Staff Attendance</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control form-control-custom" id="attendanceClass">
+                                <option value="">Select Class</option>
+                                <!-- Classes will be populated -->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="date" class="form-control form-control-custom" id="attendanceDate" 
+                                   value="" onchange="loadAttendance()">
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn-custom w-100" onclick="markAttendance()">
+                                <i class="fas fa-save"></i> Save Attendance
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="attendanceSection">
+                        <!-- Attendance will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Payroll Module -->
+                <div class="module-content" id="payrollModule">
+                    <h3 class="mb-4"><i class="fas fa-money-check-alt text-primary"></i> Payroll System</h3>
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="dashboard-card mb-4">
+                                <h5>Salary Calculator with EPF/ESIC/LWF</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Employee Name</label>
+                                            <select class="form-control form-control-custom" id="employeeSelect">
+                                                <!-- Employees will be populated -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Month</label>
+                                            <select class="form-control form-control-custom" id="salaryMonth">
+                                                <option value="1">January</option>
+                                                <option value="2">February</option>
+                                                <option value="3">March</option>
+                                                <option value="4">April</option>
+                                                <option value="5">May</option>
+                                                <option value="6">June</option>
+                                                <option value="7">July</option>
+                                                <option value="8">August</option>
+                                                <option value="9">September</option>
+                                                <option value="10">October</option>
+                                                <option value="11">November</option>
+                                                <option value="12">December</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Year</label>
+                                            <input type="number" class="form-control form-control-custom" 
+                                                   id="salaryYear" value="2024">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Basic Salary (₹)</label>
+                                            <input type="number" class="form-control form-control-custom" 
+                                                   id="basicSalary" value="30000" onchange="calculateSalary()">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>HRA (₹)</label>
+                                            <input type="number" class="form-control form-control-custom" 
+                                                   id="hra" value="12000" onchange="calculateSalary()">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>DA (₹)</label>
+                                            <input type="number" class="form-control form-control-custom" 
+                                                   id="da" value="8000" onchange="calculateSalary()">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Other Allowances (₹)</label>
+                                            <input type="number" class="form-control form-control-custom" 
+                                                   id="allowances" value="5000" onchange="calculateSalary()">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button class="btn-custom btn-success-custom w-100 mb-3" onclick="calculateSalary()">
+                                    <i class="fas fa-calculator"></i> Calculate Salary with Deductions
+                                </button>
+                                
+                                <div id="salaryResult" style="display: none;">
+                                    <!-- Salary results will be shown here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="dashboard-card mb-4">
+                                <h5>Quick Payroll Actions</h5>
+                                <div class="d-grid gap-2">
+                                    <button class="btn-custom" onclick="generatePayslips()">
+                                        <i class="fas fa-file-pdf"></i> Generate Payslips
+                                    </button>
+                                    <button class="btn-custom btn-success-custom" onclick="processBulkSalary()">
+                                        <i class="fas fa-bolt"></i> Process Bulk Salary
+                                    </button>
+                                    <button class="btn-custom btn-warning-custom" onclick="calculateGratuity()">
+                                        <i class="fas fa-calculator"></i> Calculate Gratuity
+                                    </button>
+                                    <button class="btn-custom btn-danger-custom" onclick="exportPayroll()">
+                                        <i class="fas fa-download"></i> Export to Excel
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="dashboard-card">
+                                <h5>Statutory Compliance</h5>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success"></i> 
+                                        <strong>EPF:</strong> 12% Employee + 12% Employer
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success"></i> 
+                                        <strong>ESIC:</strong> 0.75% Employee + 3.25% Employer
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success"></i> 
+                                        <strong>LWF:</strong> ₹20 per employee
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success"></i> 
+                                        <strong>TDS:</strong> As per income tax slabs
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success"></i> 
+                                        <strong>Gratuity:</strong> 15 days per completed year
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-check-circle text-success"></i> 
+                                        <strong>Bonus:</strong> Minimum 8.33%
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LMS Module -->
+                <div class="module-content" id="lmsModule">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3><i class="fas fa-book text-primary"></i> Learning Management System</h3>
+                        <button class="btn-custom" onclick="addCourse()">
+                            <i class="fas fa-plus"></i> Add Course
+                        </button>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <div class="dashboard-card">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Select Class</label>
+                                            <select class="form-control form-control-custom" id="lmsClass" 
+                                                    onchange="loadCourses()">
+                                                <option value="">All Classes</option>
+                                                <!-- Classes will be populated -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Select Subject</label>
+                                            <select class="form-control form-control-custom" id="lmsSubject" 
+                                                    onchange="loadCourses()">
+                                                <option value="">All Subjects</option>
+                                                <!-- Subjects will be populated -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Content Type</label>
+                                            <select class="form-control form-control-custom" id="lmsType" 
+                                                    onchange="loadCourses()">
+                                                <option value="">All Types</option>
+                                                <option value="video">Video Lectures</option>
+                                                <option value="document">Study Materials</option>
+                                                <option value="assignment">Assignments</option>
+                                                <option value="quiz">Quizzes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row" id="coursesContainer">
+                        <!-- Courses will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Admin Module -->
+                <div class="module-content" id="adminModule">
+                    <h3 class="mb-4"><i class="fas fa-cog text-primary"></i> Admin Control Panel</h3>
+                    
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="dashboard-card h-100">
+                                <h5>System Settings</h5>
+                                <div class="d-grid gap-2">
+                                    <button class="btn-custom" onclick="showAdminSection('school')">
+                                        <i class="fas fa-school"></i> School Settings
+                                    </button>
+                                    <button class="btn-custom" onclick="showAdminSection('users')">
+                                        <i class="fas fa-users-cog"></i> User Management
+                                    </button>
+                                    <button class="btn-custom" onclick="showAdminSection('subscription')">
+                                        <i class="fas fa-tags"></i> Subscription Plans
+                                    </button>
+                                    <button class="btn-custom" onclick="showAdminSection('backup')">
+                                        <i class="fas fa-database"></i> Backup & Restore
+                                    </button>
+                                    <button class="btn-custom" onclick="showAdminSection('reports')">
+                                        <i class="fas fa-chart-bar"></i> System Reports
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-9">
+                            <div id="adminSectionContent">
+                                <!-- Admin sections will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget" id="chatbotWidget">
+        <div class="chatbot-header" onclick="toggleChatbot()">
+            <div>
+                <i class="fas fa-robot"></i> AI School Assistant
+                <span class="badge-custom badge-success">Online</span>
+            </div>
+            <div>
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        <div class="chatbot-body">
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                    <div class="message-content">
+                        Hello! I'm your School ERP Assistant. How can I help you today?
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" class="form-control form-control-custom" 
+                       id="chatInput" placeholder="Type your question...">
+                <button class="btn-custom" onclick="sendChatMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Chatbot Toggle Button -->
+    <div class="chat-toggle pulse" onclick="toggleChatbot()">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal" style="display: none;">
+        <div class="login-box">
+            <div class="login-avatar">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h3 class="text-center mb-4">Login to School ERP</h3>
+            
+            <div class="form-group">
+                <label>Username / Email</label>
+                <input type="text" class="form-control form-control-custom" 
+                       id="loginUsername" placeholder="Enter username or email">
+            </div>
+            
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control form-control-custom" 
+                       id="loginPassword" placeholder="Enter password">
+            </div>
+            
+            <div class="form-group">
+                <select class="form-control form-control-custom" id="loginRole">
+                    <option value="admin">Admin</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="student">Student</option>
+                    <option value="parent">Parent</option>
+                    <option value="staff">Staff</option>
+                </select>
+            </div>
+            
+            <button class="btn-custom w-100 mb-3" onclick="performLogin()">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+            
+            <div class="text-center">
+                <small class="text-muted">Demo Credentials: admin / admin123</small>
+            </div>
+            
+            <div class="text-center mt-3">
+                <button class="btn btn-link" onclick="hideLogin()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Database and State Management
+        const schoolERP = {
+            // Mock Database
+            database: {
+                users: [
+                    { id: 1, username: 'admin', password: 'admin123', role: 'admin', name: 'System Admin', email: 'admin@school.edu' },
+                    { id: 2, username: 'teacher1', password: 'teacher123', role: 'teacher', name: 'Mrs. Sunita Patel', email: 'teacher@school.edu' },
+                    { id: 3, username: 'student1', password: 'student123', role: 'student', name: 'Rahul Kumar', email: 'student@school.edu' }
+                ],
+                
+                students: [
+                    { id: 1, admissionNo: 'S2024001', name: 'Rahul Kumar', class: '10th', section: 'A', rollNo: 1, 
+                      fatherName: 'Mr. Amit Kumar', motherName: 'Mrs. Sunita Kumar', dob: '2008-05-15', 
+                      address: '123 Main Street, Mumbai', phone: '+91 9876543210', status: 'active' },
+                    { id: 2, admissionNo: 'S2024002', name: 'Priya Sharma', class: '10th', section: 'A', rollNo: 2, 
+                      fatherName: 'Mr. Ramesh Sharma', motherName: 'Mrs. Geeta Sharma', dob: '2008-08-22', 
+                      address: '456 Park Avenue, Mumbai', phone: '+91 9876543211', status: 'active' },
+                    { id: 3, admissionNo: 'S2024003', name: 'Amit Singh', class: '9th', section: 'B', rollNo: 1, 
+                      fatherName: 'Mr. Rajesh Singh', motherName: 'Mrs. Anita Singh', dob: '2009-03-10', 
+                      address: '789 Gandhi Road, Mumbai', phone: '+91 9876543212', status: 'active' },
+                    { id: 4, admissionNo: 'S2024004', name: 'Neha Gupta', class: '11th', section: 'Science', rollNo: 5, 
+                      fatherName: 'Mr. Sanjay Gupta', motherName: 'Mrs. Reena Gupta', dob: '2007-11-30', 
+                      address: '321 Lake View, Mumbai', phone: '+91 9876543213', status: 'active' }
+                ],
+                
+                teachers: [
+                    { id: 1, employeeId: 'T2024001', name: 'Mrs. Sunita Patel', qualification: 'M.Sc., B.Ed.', 
+                      subject: 'Mathematics', experience: '10 years', joiningDate: '2014-06-01', 
+                      salary: 45000, email: 'sunita@teacher.edu', phone: '+91 9876543220', status: 'active' },
+                    { id: 2, employeeId: 'T2024002', name: 'Mr. Rajesh Verma', qualification: 'M.A., B.Ed.', 
+                      subject: 'English', experience: '8 years', joiningDate: '2016-04-15', 
+                      salary: 42000, email: 'rajesh@teacher.edu', phone: '+91 9876543221', status: 'active' },
+                    { id: 3, employeeId: 'T2024003', name: 'Dr. Anil Deshmukh', qualification: 'Ph.D., M.Sc.', 
+                      subject: 'Science', experience: '15 years', joiningDate: '2009-03-10', 
+                      salary: 55000, email: 'anil@teacher.edu', phone: '+91 9876543222', status: 'active' }
+                ],
+                
+                attendance: [],
+                salaryRecords: [],
+                courses: [],
+                events: []
+            },
+            
+            // Current User
+            currentUser: null,
+            
+            // Initialize the application
+            init() {
+                this.loadSampleData();
+                this.loadDashboard();
+                this.loadStudents();
+                this.loadTeachers();
+                this.initializeCharts();
+                this.loadRecentActivities();
+                this.loadUpcomingEvents();
+                this.loadCourses();
+                
+                // Set current date for attendance
+                document.getElementById('attendanceDate').value = new Date().toISOString().split('T')[0];
+                
+                // Set salary year to current year
+                document.getElementById('salaryYear').value = new Date().getFullYear();
+            },
+            
+            // Load sample data
+            loadSampleData() {
+                // Generate sample attendance
+                const today = new Date();
+                for (let i = 0; i < 30; i++) {
+                    const date = new Date(today);
+                    date.setDate(today.getDate() - i);
+                    
+                    // Student attendance
+                    this.database.students.forEach(student => {
+                        this.database.attendance.push({
+                            id: this.database.attendance.length + 1,
+                            studentId: student.id,
+                            date: date.toISOString().split('T')[0],
+                            status: Math.random() > 0.1 ? 'present' : 'absent',
+                            checkIn: '08:45',
+                            checkOut: '15:30'
+                        });
+                    });
+                    
+                    // Teacher attendance
+                    this.database.teachers.forEach(teacher => {
+                        this.database.attendance.push({
+                            id: this.database.attendance.length + 1,
+                            teacherId: teacher.id,
+                            date: date.toISOString().split('T')[0],
+                            status: Math.random() > 0.05 ? 'present' : 'leave',
+                            checkIn: '08:30',
+                            checkOut: '16:00'
+                        });
+                    });
+                }
+                
+                // Generate sample courses
+                this.database.courses = [
+                    { id: 1, code: 'MATH101', name: 'Algebra Basics', class: '10th', subject: 'Mathematics', 
+                      teacher: 'Mrs. Sunita Patel', type: 'video', description: 'Introduction to algebraic expressions' },
+                    { id: 2, code: 'ENG102', name: 'Grammar Rules', class: '10th', subject: 'English', 
+                      teacher: 'Mr. Rajesh Verma', type: 'document', description: 'Complete English grammar guide' },
+                    { id: 3, code: 'SCI103', name: 'Physics Laws', class: '10th', subject: 'Science', 
+                      teacher: 'Dr. Anil Deshmukh', type: 'quiz', description: 'Test your physics knowledge' },
+                    { id: 4, code: 'MATH201', name: 'Geometry Problems', class: '9th', subject: 'Mathematics', 
+                      teacher: 'Mrs. Sunita Patel', type: 'assignment', description: 'Practice geometry problems' }
+                ];
+                
+                // Generate sample events
+                this.database.events = [
+                    { id: 1, title: 'Annual Sports Day', date: '2024-03-20', description: 'School sports competition' },
+                    { id: 2, title: 'Science Exhibition', date: '2024-03-25', description: 'Student science projects' },
+                    { id: 3, title: 'Parent-Teacher Meeting', date: '2024-03-30', description: 'Quarterly PTM' }
+                ];
+                
+                // Generate sample salary records
+                this.database.salaryRecords = [
+                    { id: 1, employeeId: 1, month: 2, year: 2024, basic: 30000, hra: 12000, da: 8000, 
+                      allowances: 5000, deductions: 5487.5, netSalary: 41512.5, status: 'paid' }
+                ];
+            },
+            
+            // Dashboard functions
+            loadDashboard() {
+                document.getElementById('totalStudents').textContent = this.database.students.length;
+                document.getElementById('totalTeachers').textContent = this.database.teachers.length;
+                
+                // Calculate today's attendance rate
+                const today = new Date().toISOString().split('T')[0];
+                const todayAttendance = this.database.attendance.filter(a => 
+                    a.date === today && a.studentId && a.status === 'present'
+                );
+                const totalStudents = this.database.students.length;
+                const attendanceRate = totalStudents > 0 ? 
+                    Math.round((todayAttendance.length / totalStudents) * 100) : 0;
+                
+                document.getElementById('attendanceRate').textContent = attendanceRate + '%';
+                
+                // Calculate fee collection (mock)
+                const feeCollection = 850000; // 8.5L in rupees
+                document.getElementById('feeCollection').textContent = '₹' + (feeCollection / 100000).toFixed(1) + 'L';
+            },
+            
+            initializeCharts() {
+                // Attendance Chart
+                const ctx = document.getElementById('attendanceChart').getContext('2d');
+                const attendanceChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Attendance Rate (%)',
+                            data: [92, 94, 93, 95, 94, 96],
+                            borderColor: '#3498db',
+                            backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                min: 85,
+                                max: 100
+                            }
+                        }
+                    }
+                });
+            },
+            
+            loadRecentActivities() {
+                const activities = [
+                    { time: '10:30 AM', action: 'Attendance marked for Class 10th', user: 'Admin' },
+                    { time: '11:15 AM', action: 'New student registered: Neha Gupta', user: 'Admin' },
+                    { time: '01:45 PM', action: 'Salary processed for March 2024', user: 'Accountant' },
+                    { time: '03:20 PM', action: 'New assignment uploaded: Mathematics', user: 'Mrs. Sunita Patel' },
+                    { time: '04:00 PM', action: 'Fee payment received from Rahul Kumar', user: 'Cashier' }
+                ];
+                
+                let html = '';
+                activities.forEach(activity => {
+                    html += `
+                        <div class="d-flex mb-3">
+                            <div class="flex-shrink-0">
+                                <div class="rounded-circle bg-primary p-2" style="width: 40px; height: 40px;">
+                                    <i class="fas fa-bell text-white"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-0">${activity.action}</h6>
+                                <small class="text-muted">${activity.time} • By ${activity.user}</small>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                document.getElementById('recentActivities').innerHTML = html;
+            },
+            
+            loadUpcomingEvents() {
+                let html = '';
+                this.database.events.forEach(event => {
+                    const eventDate = new Date(event.date);
+                    const today = new Date();
+                    const diffTime = eventDate - today;
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    
+                    html += `
+                        <div class="d-flex mb-3 p-3 border rounded">
+                            <div class="flex-shrink-0">
+                                <div class="rounded-circle bg-warning p-2 text-white" 
+                                     style="width: 50px; height: 50px; text-align: center;">
+                                    <strong>${eventDate.getDate()}</strong><br>
+                                    <small>${eventDate.toLocaleString('default', { month: 'short' })}</small>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-0">${event.title}</h6>
+                                <p class="mb-1 text-muted">${event.description}</p>
+                                <small class="text-primary">
+                                    <i class="far fa-clock"></i> ${diffDays} days remaining
+                                </small>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                document.getElementById('upcomingEvents').innerHTML = html;
+            },
+            
+            // Student Management
+            loadStudents() {
+                let html = '';
+                this.database.students.forEach(student => {
+                    html += `
+                        <tr>
+                            <td>${student.admissionNo}</td>
+                            <td>
+                                <strong>${student.name}</strong><br>
+                                <small class="text-muted">Roll No: ${student.rollNo}</small>
+                            </td>
+                            <td>${student.class} - ${student.section}</td>
+                            <td>${student.fatherName}</td>
+                            <td>${student.phone}</td>
+                            <td>
+                                <span class="badge-custom badge-success">${student.status}</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewStudent(${student.id})">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-warning" onclick="editStudent(${student.id})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteStudent(${student.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                document.getElementById('studentsTable').innerHTML = html;
+            },
+            
+            searchStudents(query) {
+                const filtered = this.database.students.filter(student => 
+                    student.name.toLowerCase().includes(query.toLowerCase()) ||
+                    student.admissionNo.toLowerCase().includes(query.toLowerCase()) ||
+                    student.class.toLowerCase().includes(query.toLowerCase())
+                );
+                
+                this.renderStudents(filtered);
+            },
+            
+            filterByClass(className) {
+                if (!className) {
+                    this.loadStudents();
+                    return;
+                }
+                
+                const filtered = this.database.students.filter(student => 
+                    student.class === className
+                );
+                
+                this.renderStudents(filtered);
+            },
+            
+            filterByStatus(status) {
+                if (!status) {
+                    this.loadStudents();
+                    return;
+                }
+                
+                const filtered = this.database.students.filter(student => 
+                    student.status === status
+                );
+                
+                this.renderStudents(filtered);
+            },
+            
+            renderStudents(students) {
+                let html = '';
+                students.forEach(student => {
+                    html += `
+                        <tr>
+                            <td>${student.admissionNo}</td>
+                            <td>
+                                <strong>${student.name}</strong><br>
+                                <small class="text-muted">Roll No: ${student.rollNo}</small>
+                            </td>
+                            <td>${student.class} - ${student.section}</td>
+                            <td>${student.fatherName}</td>
+                            <td>${student.phone}</td>
+                            <td>
+                                <span class="badge-custom badge-success">${student.status}</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewStudent(${student.id})">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-warning" onclick="editStudent(${student.id})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteStudent(${student.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                document.getElementById('studentsTable').innerHTML = html;
+            },
+            
+            // Teacher Management
+            loadTeachers() {
+                let html = '';
+                this.database.teachers.forEach(teacher => {
+                    html += `
+                        <tr>
+                            <td>${teacher.employeeId}</td>
+                            <td>
+                                <strong>${teacher.name}</strong><br>
+                                <small class="text-muted">${teacher.qualification}</small>
+                            </td>
+                            <td>${teacher.subject}</td>
+                            <td>${teacher.qualification}</td>
+                            <td>${teacher.experience}</td>
+                            <td>₹${teacher.salary.toLocaleString()}</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewTeacher(${teacher.id})">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-warning" onclick="editTeacher(${teacher.id})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteTeacher(${teacher.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                document.getElementById('teachersTable').innerHTML = html;
+                
+                // Populate employee dropdown for payroll
+                let employeeOptions = '<option value="">Select Employee</option>';
+                this.database.teachers.forEach(teacher => {
+                    employeeOptions += `<option value="${teacher.id}">${teacher.name} (${teacher.employeeId})</option>`;
+                });
+                document.getElementById('employeeSelect').innerHTML = employeeOptions;
+            },
+            
+            searchTeachers(query) {
+                const filtered = this.database.teachers.filter(teacher => 
+                    teacher.name.toLowerCase().includes(query.toLowerCase()) ||
+                    teacher.employeeId.toLowerCase().includes(query.toLowerCase()) ||
+                    teacher.subject.toLowerCase().includes(query.toLowerCase())
+                );
+                
+                this.renderTeachers(filtered);
+            },
+            
+            filterByDepartment(dept) {
+                if (!dept) {
+                    this.loadTeachers();
+                    return;
+                }
+                
+                const filtered = this.database.teachers.filter(teacher => 
+                    teacher.subject === dept
+                );
+                
+                this.renderTeachers(filtered);
+            },
+            
+            filterByDesignation(designation) {
+                // This is a mock filter since we don't have designation in sample data
+                if (!designation) {
+                    this.loadTeachers();
+                    return;
+                }
+                
+                this.renderTeachers(this.database.teachers);
+            },
+            
+            renderTeachers(teachers) {
+                let html = '';
+                teachers.forEach(teacher => {
+                    html += `
+                        <tr>
+                            <td>${teacher.employeeId}</td>
+                            <td>
+                                <strong>${teacher.name}</strong><br>
+                                <small class="text-muted">${teacher.qualification}</small>
+                            </td>
+                            <td>${teacher.subject}</td>
+                            <td>${teacher.qualification}</td>
+                            <td>${teacher.experience}</td>
+                            <td>₹${teacher.salary.toLocaleString()}</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewTeacher(${teacher.id})">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-warning" onclick="editTeacher(${teacher.id})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteTeacher(${teacher.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                document.getElementById('teachersTable').innerHTML = html;
+            },
+            
+            // Payroll Calculation
+            calculateSalary() {
+                const basic = parseFloat(document.getElementById('basicSalary').value) || 0;
+                const hra = parseFloat(document.getElementById('hra').value) || 0;
+                const da = parseFloat(document.getElementById('da').value) || 0;
+                const allowances = parseFloat(document.getElementById('allowances').value) || 0;
+                
+                // Calculate gross salary
+                const gross = basic + hra + da + allowances;
+                
+                // Calculate EPF (12% of basic)
+                const epfEmployee = (basic * 12) / 100;
+                const epfEmployer = (basic * 12) / 100;
+                
+                // Calculate ESIC (0.75% of gross)
+                const esicEmployee = (gross * 0.75) / 100;
+                const esicEmployer = (gross * 3.25) / 100;
+                
+                // LWF fixed amount
+                const lwf = 20;
+                
+                // Calculate TDS (simplified)
+                const annualSalary = gross * 12;
+                let tds = 0;
+                if (annualSalary > 300000) {
+                    tds = ((annualSalary - 300000) * 0.05) / 12;
+                }
+                if (annualSalary > 600000) {
+                    tds = (15000 + (annualSalary - 600000) * 0.1) / 12;
+                }
+                if (annualSalary > 900000) {
+                    tds = (45000 + (annualSalary - 900000) * 0.15) / 12;
+                }
+                
+                // Total deductions
+                const totalDeductions = epfEmployee + esicEmployee + lwf + tds;
+                
+                // Net salary
+                const netSalary = gross - totalDeductions;
+                
+                // Display results
+                const resultHTML = `
+                    <div class="p-4 border rounded bg-light">
+                        <h5 class="text-center mb-4">Salary Breakdown</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Earnings</h6>
+                                <table class="table table-sm">
+                                    <tr><td>Basic Salary</td><td class="text-end">₹${basic.toLocaleString()}</td></tr>
+                                    <tr><td>House Rent Allowance</td><td class="text-end">₹${hra.toLocaleString()}</td></tr>
+                                    <tr><td>Dearness Allowance</td><td class="text-end">₹${da.toLocaleString()}</td></tr>
+                                    <tr><td>Other Allowances</td><td class="text-end">₹${allowances.toLocaleString()}</td></tr>
+                                    <tr class="table-primary"><td><strong>Gross Salary</strong></td>
+                                        <td class="text-end"><strong>₹${gross.toLocaleString()}</strong></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Deductions</h6>
+                                <table class="table table-sm">
+                                    <tr><td>EPF (Employee 12%)</td><td class="text-end">₹${epfEmployee.toLocaleString()}</td></tr>
+                                    <tr><td>ESIC (Employee 0.75%)</td><td class="text-end">₹${esicEmployee.toLocaleString()}</td></tr>
+                                    <tr><td>Labor Welfare Fund</td><td class="text-end">₹${lwf.toLocaleString()}</td></tr>
+                                    <tr><td>TDS (Estimated)</td><td class="text-end">₹${tds.toFixed(2)}</td></tr>
+                                    <tr class="table-danger"><td><strong>Total Deductions</strong></td>
+                                        <td class="text-end"><strong>₹${totalDeductions.toLocaleString()}</strong></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <h6>Employer Contributions</h6>
+                                <table class="table table-sm">
+                                    <tr><td>EPF (Employer 12%)</td><td class="text-end">₹${epfEmployer.toLocaleString()}</td></tr>
+                                    <tr><td>ESIC (Employer 3.25%)</td><td class="text-end">₹${esicEmployer.toLocaleString()}</td></tr>
+                                    <tr class="table-info"><td><strong>Total Contribution</strong></td>
+                                        <td class="text-end"><strong>₹${(epfEmployer + esicEmployer).toLocaleString()}</strong></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-center p-3 bg-white rounded">
+                                    <h3 class="text-success mb-0">
+                                        <i class="fas fa-rupee-sign"></i> 
+                                        Net Salary: ₹${netSalary.toLocaleString()}
+                                    </h3>
+                                    <small class="text-muted">Monthly take-home amount</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3 text-center">
+                            <button class="btn-custom me-2" onclick="generatePayslip(${basic}, ${hra}, ${da}, ${allowances}, ${netSalary})">
+                                <i class="fas fa-file-pdf"></i> Generate Payslip
+                            </button>
+                            <button class="btn-custom btn-success-custom" onclick="saveSalaryRecord(${basic}, ${hra}, ${da}, ${allowances}, ${netSalary})">
+                                <i class="fas fa-save"></i> Save Record
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('salaryResult').innerHTML = resultHTML;
+                document.getElementById('salaryResult').style.display = 'block';
+            },
+            
+            // LMS Functions
+            loadCourses() {
+                const classFilter = document.getElementById('lmsClass').value;
+                const subjectFilter = document.getElementById('lmsSubject').value;
+                const typeFilter = document.getElementById('lmsType').value;
+                
+                let filteredCourses = this.database.courses;
+                
+                if (classFilter) {
+                    filteredCourses = filteredCourses.filter(course => course.class === classFilter);
+                }
+                
+                if (subjectFilter) {
+                    filteredCourses = filteredCourses.filter(course => course.subject === subjectFilter);
+                }
+                
+                if (typeFilter) {
+                    filteredCourses = filteredCourses.filter(course => course.type === typeFilter);
+                }
+                
+                let html = '';
+                filteredCourses.forEach(course => {
+                    const icon = course.type === 'video' ? 'fas fa-video' : 
+                                course.type === 'document' ? 'fas fa-file-pdf' : 
+                                course.type === 'assignment' ? 'fas fa-tasks' : 'fas fa-question-circle';
+                    
+                    const badgeColor = course.type === 'video' ? 'primary' : 
+                                     course.type === 'document' ? 'success' : 
+                                     course.type === 'assignment' ? 'warning' : 'info';
+                    
+                    html += `
+                        <div class="col-md-6 mb-4">
+                            <div class="dashboard-card h-100">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <span class="badge-custom badge-${badgeColor}">${course.type}</span>
+                                        <span class="badge-custom badge-secondary">${course.class}</span>
+                                    </div>
+                                    <i class="${icon} fa-2x text-${badgeColor}"></i>
+                                </div>
+                                <h5>${course.name}</h5>
+                                <p class="text-muted">${course.description}</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <small><i class="fas fa-chalkboard-teacher"></i> ${course.teacher}</small>
+                                    <small><i class="fas fa-code"></i> ${course.code}</small>
+                                </div>
+                                <div class="mt-3">
+                                    <button class="btn-custom btn-sm" onclick="viewCourse(${course.id})">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                    <button class="btn-custom btn-success-custom btn-sm" onclick="enrollCourse(${course.id})">
+                                        <i class="fas fa-plus"></i> Enroll
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                document.getElementById('coursesContainer').innerHTML = html;
+            },
+            
+            // Attendance Functions
+            loadAttendance() {
+                const type = document.getElementById('attendanceType').value;
+                const className = document.getElementById('attendanceClass').value;
+                const date = document.getElementById('attendanceDate').value;
+                
+                let html = '';
+                
+                if (type === 'student') {
+                    html = this.generateStudentAttendanceTable(className, date);
+                } else if (type === 'teacher') {
+                    html = this.generateTeacherAttendanceTable(date);
+                } else {
+                    html = this.generateStaffAttendanceTable(date);
+                }
+                
+                document.getElementById('attendanceSection').innerHTML = html;
+            },
+            
+            generateStudentAttendanceTable(className, date) {
+                let filteredStudents = this.database.students;
+                
+                if (className) {
+                    filteredStudents = filteredStudents.filter(student => student.class === className);
+                }
+                
+                let html = `
+                    <div class="table-responsive">
+                        <table class="table table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Roll No</th>
+                                    <th>Student Name</th>
+                                    <th>Class</th>
+                                    <th>Attendance</th>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                filteredStudents.forEach(student => {
+                    const existingAttendance = this.database.attendance.find(a => 
+                        a.studentId === student.id && a.date === date
+                    );
+                    
+                    html += `
+                        <tr>
+                            <td>${student.rollNo}</td>
+                            <td>${student.name}</td>
+                            <td>${student.class} - ${student.section}</td>
+                            <td>
+                                <select class="form-control form-control-custom attendance-status" 
+                                        data-id="${student.id}" data-type="student">
+                                    <option value="present" ${existingAttendance?.status === 'present' ? 'selected' : ''}>Present</option>
+                                    <option value="absent" ${existingAttendance?.status === 'absent' ? 'selected' : ''}>Absent</option>
+                                    <option value="leave" ${existingAttendance?.status === 'leave' ? 'selected' : ''}>Leave</option>
+                                    <option value="half-day" ${existingAttendance?.status === 'half-day' ? 'selected' : ''}>Half Day</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="time" class="form-control form-control-custom check-in" 
+                                       value="${existingAttendance?.checkIn || '08:45'}" 
+                                       data-id="${student.id}" data-type="student">
+                            </td>
+                            <td>
+                                <input type="time" class="form-control form-control-custom check-out" 
+                                       value="${existingAttendance?.checkOut || '15:30'}" 
+                                       data-id="${student.id}" data-type="student">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-custom remarks" 
+                                       placeholder="Remarks" value="${existingAttendance?.remarks || ''}"
+                                       data-id="${student.id}" data-type="student">
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                
+                return html;
+            },
+            
+            generateTeacherAttendanceTable(date) {
+                let html = `
+                    <div class="table-responsive">
+                        <table class="table table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Employee ID</th>
+                                    <th>Teacher Name</th>
+                                    <th>Subject</th>
+                                    <th>Attendance</th>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                this.database.teachers.forEach(teacher => {
+                    const existingAttendance = this.database.attendance.find(a => 
+                        a.teacherId === teacher.id && a.date === date
+                    );
+                    
+                    html += `
+                        <tr>
+                            <td>${teacher.employeeId}</td>
+                            <td>${teacher.name}</td>
+                            <td>${teacher.subject}</td>
+                            <td>
+                                <select class="form-control form-control-custom attendance-status" 
+                                        data-id="${teacher.id}" data-type="teacher">
+                                    <option value="present" ${existingAttendance?.status === 'present' ? 'selected' : ''}>Present</option>
+                                    <option value="absent" ${existingAttendance?.status === 'absent' ? 'selected' : ''}>Absent</option>
+                                    <option value="leave" ${existingAttendance?.status === 'leave' ? 'selected' : ''}>Leave</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="time" class="form-control form-control-custom check-in" 
+                                       value="${existingAttendance?.checkIn || '08:30'}" 
+                                       data-id="${teacher.id}" data-type="teacher">
+                            </td>
+                            <td>
+                                <input type="time" class="form-control form-control-custom check-out" 
+                                       value="${existingAttendance?.checkOut || '16:00'}" 
+                                       data-id="${teacher.id}" data-type="teacher">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-custom remarks" 
+                                       placeholder="Remarks" value="${existingAttendance?.remarks || ''}"
+                                       data-id="${teacher.id}" data-type="teacher">
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                
+                return html;
+            },
+            
+            generateStaffAttendanceTable(date) {
+                // Mock staff data
+                const staff = [
+                    { id: 101, name: 'Mr. Sharma', designation: 'Accountant' },
+                    { id: 102, name: 'Mrs. Gupta', designation: 'Librarian' },
+                    { id: 103, name: 'Mr. Singh', designation: 'Lab Assistant' }
+                ];
+                
+                let html = `
+                    <div class="table-responsive">
+                        <table class="table table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Staff ID</th>
+                                    <th>Staff Name</th>
+                                    <th>Designation</th>
+                                    <th>Attendance</th>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                staff.forEach(staffMember => {
+                    html += `
+                        <tr>
+                            <td>STF${staffMember.id}</td>
+                            <td>${staffMember.name}</td>
+                            <td>${staffMember.designation}</td>
+                            <td>
+                                <select class="form-control form-control-custom attendance-status" 
+                                        data-id="${staffMember.id}" data-type="staff">
+                                    <option value="present">Present</option>
+                                    <option value="absent">Absent</option>
+                                    <option value="leave">Leave</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="time" class="form-control form-control-custom check-in" 
+                                       value="09:00" data-id="${staffMember.id}" data-type="staff">
+                            </td>
+                            <td>
+                                <input type="time" class="form-control form-control-custom check-out" 
+                                       value="17:00" data-id="${staffMember.id}" data-type="staff">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-custom remarks" 
+                                       placeholder="Remarks" data-id="${staffMember.id}" data-type="staff">
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                
+                return html;
+            },
+            
+            saveAttendance() {
+                const type = document.getElementById('attendanceType').value;
+                const date = document.getElementById('attendanceDate').value;
+                
+                const statusSelects = document.querySelectorAll('.attendance-status');
+                const checkIns = document.querySelectorAll('.check-in');
+                const checkOuts = document.querySelectorAll('.check-out');
+                const remarksInputs = document.querySelectorAll('.remarks');
+                
+                let savedCount = 0;
+                
+                for (let i = 0; i < statusSelects.length; i++) {
+                    const id = statusSelects[i].dataset.id;
+                    const dataType = statusSelects[i].dataset.type;
+                    
+                    const attendanceRecord = {
+                        id: this.database.attendance.length + 1,
+                        date: date,
+                        status: statusSelects[i].value,
+                        checkIn: checkIns[i].value,
+                        checkOut: checkOuts[i].value,
+                        remarks: remarksInputs[i].value
+                    };
+                    
+                    if (dataType === 'student') {
+                        attendanceRecord.studentId = parseInt(id);
+                    } else if (dataType === 'teacher') {
+                        attendanceRecord.teacherId = parseInt(id);
+                    } else {
+                        attendanceRecord.staffId = parseInt(id);
+                    }
+                    
+                    // Remove existing record for this date
+                    const existingIndex = this.database.attendance.findIndex(a => 
+                        a.date === date && 
+                        ((a.studentId && a.studentId === parseInt(id)) || 
+                         (a.teacherId && a.teacherId === parseInt(id)) ||
+                         (a.staffId && a.staffId === parseInt(id)))
+                    );
+                    
+                    if (existingIndex !== -1) {
+                        this.database.attendance[existingIndex] = attendanceRecord;
+                    } else {
+                        this.database.attendance.push(attendanceRecord);
+                    }
+                    
+                    savedCount++;
+                }
+                
+                alert(`Attendance saved for ${savedCount} ${type}s`);
+                this.loadDashboard(); // Refresh dashboard stats
+            },
+            
+            // Admin Functions
+            showAdminSection(section) {
+                let html = '';
+                
+                switch(section) {
+                    case 'school':
+                        html = this.getSchoolSettingsHTML();
+                        break;
+                    case 'users':
+                        html = this.getUserManagementHTML();
+                        break;
+                    case 'subscription':
+                        html = this.getSubscriptionHTML();
+                        break;
+                    case 'backup':
+                        html = this.getBackupHTML();
+                        break;
+                    case 'reports':
+                        html = this.getReportsHTML();
+                        break;
+                }
+                
+                document.getElementById('adminSectionContent').innerHTML = html;
+            },
+            
+            getSchoolSettingsHTML() {
+                return `
+                    <div class="dashboard-card">
+                        <h5><i class="fas fa-school"></i> School Settings</h5>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>School Name</label>
+                                    <input type="text" class="form-control form-control-custom" 
+                                           value="Xpertcoptech Public School">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>School Code</label>
+                                    <input type="text" class="form-control form-control-custom" 
+                                           value="XPCS2024">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Principal Name</label>
+                                    <input type="text" class="form-control form-control-custom" 
+                                           value="Dr. Ramesh Sharma">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Contact Email</label>
+                                    <input type="email" class="form-control form-control-custom" 
+                                           value="info@xpertcoptech.edu">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>School Address</label>
+                                    <textarea class="form-control form-control-custom" rows="3">
+123 Education Street, Knowledge City, Mumbai - 400001
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Academic Year</label>
+                                    <select class="form-control form-control-custom">
+                                        <option>2023-2024</option>
+                                        <option selected>2024-2025</option>
+                                        <option>2025-2026</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>School Logo</label>
+                                    <input type="file" class="form-control form-control-custom">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-custom mt-3">
+                            <i class="fas fa-save"></i> Save Settings
+                        </button>
+                    </div>
+                `;
+            },
+            
+            getUserManagementHTML() {
+                let html = `
+                    <div class="dashboard-card">
+                        <h5><i class="fas fa-users-cog"></i> User Management</h5>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <button class="btn-custom" onclick="addUser()">
+                                <i class="fas fa-plus"></i> Add New User
+                            </button>
+                            <div class="input-group" style="width: 300px;">
+                                <input type="text" class="form-control form-control-custom" 
+                                       placeholder="Search users...">
+                                <button class="btn-custom">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-custom">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Username</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                `;
+                
+                this.database.users.forEach(user => {
+                    html += `
+                        <tr>
+                            <td>${user.id}</td>
+                            <td>${user.username}</td>
+                            <td>${user.name}</td>
+                            <td>${user.email}</td>
+                            <td>
+                                <span class="badge-custom badge-info">${user.role}</span>
+                            </td>
+                            <td>
+                                <span class="badge-custom badge-success">Active</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary" onclick="editUser(${user.id})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${user.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+                
+                return html;
+            },
+            
+            getSubscriptionHTML() {
+                return `
+                    <div class="dashboard-card">
+                        <h5><i class="fas fa-tags"></i> Subscription Plans</h5>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <div class="dashboard-card text-center h-100">
+                                    <div class="card-icon mb-3">
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <h4>Basic Plan</h4>
+                                    <h2 class="text-primary">₹5,000</h2>
+                                    <small class="text-muted">per month</small>
+                                    
+                                    <ul class="list-unstyled mt-3 text-start">
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> Up to 500 Students</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> Basic Reports</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> Email Support</li>
+                                        <li class="mb-2"><i class="fas fa-times text-danger"></i> AI Chatbot</li>
+                                        <li class="mb-2"><i class="fas fa-times text-danger"></i> Advanced Analytics</li>
+                                    </ul>
+                                    
+                                    <button class="btn-custom w-100 mt-3">
+                                        <i class="fas fa-shopping-cart"></i> Select Plan
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="dashboard-card text-center h-100" style="border: 2px solid #3498db;">
+                                    <div class="card-icon mb-3" style="background: linear-gradient(135deg, #3498db, #2c3e50);">
+                                        <i class="fas fa-crown"></i>
+                                    </div>
+                                    <h4>Pro Plan</h4>
+                                    <h2 class="text-primary">₹12,000</h2>
+                                    <small class="text-muted">per month</small>
+                                    
+                                    <ul class="list-unstyled mt-3 text-start">
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> Unlimited Students</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> Advanced Reports</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> Priority Support</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> AI Chatbot Included</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> Complete Analytics</li>
+                                    </ul>
+                                    
+                                    <button class="btn-custom w-100 mt-3 pulse">
+                                        <i class="fas fa-bolt"></i> Popular Choice
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="dashboard-card text-center h-100">
+                                    <div class="card-icon mb-3">
+                                        <i class="fas fa-building"></i>
+                                    </div>
+                                    <h4>Enterprise</h4>
+                                    <h2 class="text-primary">₹25,000</h2>
+                                    <small class="text-muted">per month</small>
+                                    
+                                    <ul class="list-unstyled mt-3 text-start">
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> Multiple Schools</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> Custom Reports</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> 24/7 Support</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> AI Chatbot Pro</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success"></i> API Access</li>
+                                    </ul>
+                                    
+                                    <button class="btn-custom w-100 mt-3">
+                                        <i class="fas fa-phone"></i> Contact Sales
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+            
+            getBackupHTML() {
+                return `
+                    <div class="dashboard-card">
+                        <h5><i class="fas fa-database"></i> Backup & Restore</h5>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="dashboard-card text-center h-100">
+                                    <div class="card-icon mb-3" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">
+                                        <i class="fas fa-download"></i>
+                                    </div>
+                                    <h4>Create Backup</h4>
+                                    <p class="text-muted">Create a complete backup of your school data</p>
+                                    
+                                    <div class="form-group mt-3">
+                                        <label>Backup Name</label>
+                                        <input type="text" class="form-control form-control-custom" 
+                                               value="Backup_${new Date().toISOString().split('T')[0]}">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Include</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" checked>
+                                            <label class="form-check-label">Student Data</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" checked>
+                                            <label class="form-check-label">Attendance Records</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" checked>
+                                            <label class="form-check-label">Financial Data</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <button class="btn-custom btn-success-custom w-100 mt-3">
+                                        <i class="fas fa-save"></i> Create Backup
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="dashboard-card text-center h-100">
+                                    <div class="card-icon mb-3" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                                        <i class="fas fa-upload"></i>
+                                    </div>
+                                    <h4>Restore Backup</h4>
+                                    <p class="text-muted">Restore school data from a previous backup</p>
+                                    
+                                    <div class="form-group mt-3">
+                                        <label>Select Backup File</label>
+                                        <select class="form-control form-control-custom">
+                                            <option>Backup_2024-03-15</option>
+                                            <option>Backup_2024-03-10</option>
+                                            <option>Backup_2024-03-01</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="alert alert-warning mt-3">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        Warning: Restoring will overwrite current data
+                                    </div>
+                                    
+                                    <button class="btn-custom w-100 mt-3">
+                                        <i class="fas fa-redo"></i> Restore Backup
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+            
+            getReportsHTML() {
+                return `
+                    <div class="dashboard-card">
+                        <h5><i class="fas fa-chart-bar"></i> System Reports</h5>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-4 mb-3">
+                                <div class="dashboard-card text-center">
+                                    <div class="card-icon mb-3" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                                        <i class="fas fa-file-pdf"></i>
+                                    </div>
+                                    <h5>Student Reports</h5>
+                                    <p class="text-muted">Generate student performance reports</p>
+                                    <button class="btn-custom btn-danger-custom">
+                                        <i class="fas fa-download"></i> Generate
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <div class="dashboard-card text-center">
+                                    <div class="card-icon mb-3" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                                        <i class="fas fa-file-excel"></i>
+                                    </div>
+                                    <h5>Financial Reports</h5>
+                                    <p class="text-muted">Export financial data to Excel</p>
+                                    <button class="btn-custom">
+                                        <i class="fas fa-download"></i> Export
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <div class="dashboard-card text-center">
+                                    <div class="card-icon mb-3" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <h5>Analytics Reports</h5>
+                                    <p class="text-muted">Advanced analytics and insights</p>
+                                    <button class="btn-custom btn-success-custom">
+                                        <i class="fas fa-chart-bar"></i> View Analytics
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="dashboard-card mt-4">
+                            <h6>Custom Report Generator</h6>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Report Type</label>
+                                        <select class="form-control form-control-custom">
+                                            <option>Attendance Report</option>
+                                            <option>Fee Collection Report</option>
+                                            <option>Academic Performance</option>
+                                            <option>Staff Attendance</option>
+                                            <option>Inventory Report</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Start Date</label>
+                                        <input type="date" class="form-control form-control-custom">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>End Date</label>
+                                        <input type="date" class="form-control form-control-custom">
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn-custom w-100 mt-3">
+                                <i class="fas fa-cogs"></i> Generate Custom Report
+                            </button>
+                        </div>
+                    </div>
+                `;
+            },
+            
+            // AI Chatbot
+            chatMessages: [
+                { sender: 'bot', text: "Hello! I'm your School ERP Assistant. I can help you with:\n• Attendance queries\n• Fee payment status\n• Homework information\n• Salary details\n• School events\n• General information\n\nHow can I assist you today?" }
+            ],
+            
+            addChatMessage(sender, text) {
+                this.chatMessages.push({ sender, text, time: new Date() });
+                this.renderChatMessages();
+            },
+            
+            renderChatMessages() {
+                const container = document.getElementById('chatMessages');
+                container.innerHTML = '';
+                
+                this.chatMessages.forEach(msg => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = `message ${msg.sender}`;
+                    
+                    messageDiv.innerHTML = `
+                        <div class="message-content">
+                            ${msg.text.replace(/\n/g, '<br>')}
+                        </div>
+                    `;
+                    
+                    container.appendChild(messageDiv);
+                });
+                
+                container.scrollTop = container.scrollHeight;
+            },
+            
+            processChatMessage(message) {
+                const lowerMsg = message.toLowerCase();
+                
+                // Simple AI responses
+                let response = "I understand you're asking: \"" + message + "\"\n\nI can help you with:\n• Attendance queries\n• Fee payment status\n• Homework information\n• Salary details\n• School events\n\nWhat specific information do you need?";
+                
+                if (lowerMsg.includes('attendance') || lowerMsg.includes('present') || lowerMsg.includes('absent')) {
+                    response = "For attendance information:\n• Student attendance: 94% today\n• Teacher attendance: 98% today\n• You can mark attendance in the Attendance module\n• View detailed reports in the Dashboard";
+                } else if (lowerMsg.includes('fee') || lowerMsg.includes('payment')) {
+                    response = "Fee information:\n• Current month fee collection: ₹8.5L\n• Pending fees: ₹1.2L\n• You can pay fees online\n• View fee status in the Finance section";
+                } else if (lowerMsg.includes('salary') || lowerMsg.includes('payslip')) {
+                    response = "Salary information:\n• Use the Payroll module to calculate salary\n• EPF: 12% employee + 12% employer\n• ESIC: 0.75% employee + 3.25% employer\n• LWF: ₹20 per employee\n• Generate payslips in PDF format";
+                } else if (lowerMsg.includes('homework') || lowerMsg.includes('assignment')) {
+                    response = "Homework/Assignments:\n• Check the LMS module for assignments\n• Submission deadlines are shown\n• You can upload assignments online\n• Teachers can grade assignments";
+                } else if (lowerMsg.includes('event') || lowerMsg.includes('holiday')) {
+                    response = "Upcoming events:\n• Annual Sports Day: March 20\n• Science Exhibition: March 25\n• Parent-Teacher Meeting: March 30\n• Check the Dashboard for more events";
+                } else if (lowerMsg.includes('hello') || lowerMsg.includes('hi')) {
+                    response = "Hello! How can I help you today?";
+                } else if (lowerMsg.includes('thank')) {
+                    response = "You're welcome! Let me know if you need anything else.";
+                }
+                
+                this.addChatMessage('bot', response);
+            }
+        };
+        
+        // Global Functions
+        function showModule(moduleName) {
+            // Hide all modules
+            document.querySelectorAll('.module-content').forEach(module => {
+                module.classList.remove('active');
+            });
+            
+            // Show selected module
+            document.getElementById(moduleName + 'Module').classList.add('active');
+            
+            // Update active tab
+            document.querySelectorAll('.nav-link').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelector(`[data-module="${moduleName}"]`).classList.add('active');
+            
+            // Load module data if needed
+            if (moduleName === 'attendance') {
+                schoolERP.loadAttendance();
+            }
+        }
+        
+        function showLogin() {
+            document.getElementById('loginModal').style.display = 'flex';
+        }
+        
+        function hideLogin() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+        
+        function performLogin() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const role = document.getElementById('loginRole').value;
+            
+            // Simple authentication
+            if (username === 'admin' && password === 'admin123') {
+                alert('Login successful! Welcome Admin.');
+                hideLogin();
+                showModule('dashboard');
+            } else if (username === 'teacher1' && password === 'teacher123') {
+                alert('Login successful! Welcome Teacher.');
+                hideLogin();
+                showModule('dashboard');
+            } else if (username === 'student1' && password === 'student123') {
+                alert('Login successful! Welcome Student.');
+                hideLogin();
+                showModule('dashboard');
+            } else {
+                alert('Invalid credentials. Use: admin / admin123');
+            }
+        }
+        
+        function toggleChatbot() {
+            const chatbot = document.getElementById('chatbotWidget');
+            if (chatbot.style.display === 'block') {
+                chatbot.style.display = 'none';
+            } else {
+                chatbot.style.display = 'block';
+                schoolERP.renderChatMessages();
+            }
+        }
+        
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                schoolERP.addChatMessage('user', message);
+                input.value = '';
+                
+                // Show typing indicator
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'message bot typing';
+                typingDiv.innerHTML = '<div class="message-content">Typing...</div>';
+                document.getElementById('chatMessages').appendChild(typingDiv);
+                
+                // Simulate AI response delay
+                setTimeout(() => {
+                    document.querySelector('.typing').remove();
+                    schoolERP.processChatMessage(message);
+                }, 1000);
+            }
+        }
+        
+        function calculateSalary() {
+            schoolERP.calculateSalary();
+        }
+        
+        function markAttendance() {
+            schoolERP.saveAttendance();
+        }
+        
+        function loadAttendance() {
+            schoolERP.loadAttendance();
+        }
+        
+        function generatePayslip(basic, hra, da, allowances, netSalary) {
+            const html = `
+                <div style="padding: 20px; border: 1px solid #ddd; background: white; max-width: 800px; margin: auto;">
+                    <h2 style="text-align: center; color: #2c3e50;">Xpertcoptech Public School</h2>
+                    <h4 style="text-align: center; color: #666;">Salary Payslip</h4>
+                    <hr>
+                    
+                    <div style="display: flex; justify-content: space-between; margin: 20px 0;">
+                        <div>
+                            <p><strong>Employee:</strong> Selected Employee</p>
+                            <p><strong>Employee ID:</strong> T2024001</p>
+                            <p><strong>Month:</strong> ${document.getElementById('salaryMonth').value}/${document.getElementById('salaryYear').value}</p>
+                        </div>
+                        <div>
+                            <p><strong>Date Generated:</strong> ${new Date().toLocaleDateString()}</p>
+                            <p><strong>Payslip No:</strong> PS-${Date.now()}</p>
+                        </div>
+                    </div>
+                    
+                    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                        <tr style="background: #2c3e50; color: white;">
+                            <th style="padding: 10px; text-align: left;">Description</th>
+                            <th style="padding: 10px; text-align: right;">Amount (₹)</th>
+                        </tr>
+                        <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;">Basic Salary</td><td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">${basic.toLocaleString()}</td></tr>
+                        <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;">House Rent Allowance</td><td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">${hra.toLocaleString()}</td></tr>
+                        <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;">Dearness Allowance</td><td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">${da.toLocaleString()}</td></tr>
+                        <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;">Other Allowances</td><td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">${allowances.toLocaleString()}</td></tr>
+                        <tr style="background: #f8f9fa;"><td style="padding: 10px;"><strong>Gross Salary</strong></td><td style="padding: 10px; text-align: right;"><strong>${(basic + hra + da + allowances).toLocaleString()}</strong></td></tr>
+                        <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;">EPF Deduction (12%)</td><td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">${((basic * 12) / 100).toLocaleString()}</td></tr>
+                        <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;">ESIC Deduction (0.75%)</td><td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">${(((basic + hra + da + allowances) * 0.75) / 100).toLocaleString()}</td></tr>
+                        <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;">Labor Welfare Fund</td><td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">20</td></tr>
+                        <tr><td style="padding: 10px; border-bottom: 1px solid #ddd;">TDS Deduction</td><td style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">${(((basic + hra + da + allowances) * 12 > 300000) ? (((basic + hra + da + allowances) * 12 - 300000) * 0.05 / 12).toFixed(2) : '0')}</td></tr>
+                        <tr style="background: #f8f9fa;"><td style="padding: 10px;"><strong>Total Deductions</strong></td><td style="padding: 10px; text-align: right;"><strong>${((basic * 12) / 100 + ((basic + hra + da + allowances) * 0.75) / 100 + 20 + (((basic + hra + da + allowances) * 12 > 300000) ? ((basic + hra + da + allowances) * 12 - 300000) * 0.05 / 12 : 0)).toLocaleString()}</strong></td></tr>
+                        <tr style="background: #e8f5e8;"><td style="padding: 10px;"><strong>NET SALARY</strong></td><td style="padding: 10px; text-align: right;"><strong style="color: #27ae60; font-size: 18px;">₹${netSalary.toLocaleString()}</strong></td></tr>
+                    </table>
+                    
+                    <div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+                        <p><strong>Employer Contributions:</strong></p>
+                        <p>EPF (12%): ₹${((basic * 12) / 100).toLocaleString()} | ESIC (3.25%): ₹${(((basic + hra + da + allowances) * 3.25) / 100).toLocaleString()} | Total: ₹${(((basic * 12) / 100) + ((basic + hra + da + allowances) * 3.25) / 100).toLocaleString()}</p>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 30px; color: #666;">
+                        <p>This is a computer-generated payslip and does not require a signature.</p>
+                        <p>© Xpertcoptech School ERP Pro | Published by RS TechnoVisions</p>
+                    </div>
+                </div>
+            `;
+            
+            const newWindow = window.open();
+            newWindow.document.write(html);
+            newWindow.document.close();
+        }
+        
+        function saveSalaryRecord(basic, hra, da, allowances, netSalary) {
+            alert('Salary record saved successfully!');
+            // In a real application, this would save to database
+        }
+        
+        function generatePayslips() {
+            alert('Bulk payslip generation started!');
+        }
+        
+        function processBulkSalary() {
+            alert('Bulk salary processing completed!');
+        }
+        
+        function calculateGratuity() {
+            alert('Gratuity calculation: Use formula: (Last drawn salary × 15 × Years of service) ÷ 26');
+        }
+        
+        function exportPayroll() {
+            alert('Payroll data exported to Excel!');
+        }
+        
+        function addStudent() {
+            alert('Add Student functionality - This would open a form in a real application');
+        }
+        
+        function addTeacher() {
+            alert('Add Teacher functionality - This would open a form in a real application');
+        }
+        
+        function addCourse() {
+            alert('Add Course functionality - This would open a form in a real application');
+        }
+        
+        function viewStudent(id) {
+            const student = schoolERP.database.students.find(s => s.id === id);
+            alert(`Student Details:\n\nName: ${student.name}\nClass: ${student.class} - ${student.section}\nRoll No: ${student.rollNo}\nFather: ${student.fatherName}\nPhone: ${student.phone}`);
+        }
+        
+        function editStudent(id) {
+            alert(`Edit Student ${id} - This would open an edit form`);
+        }
+        
+        function deleteStudent(id) {
+            if (confirm('Are you sure you want to delete this student?')) {
+                alert('Student deleted (in demo mode only)');
+            }
+        }
+        
+        function viewTeacher(id) {
+            const teacher = schoolERP.database.teachers.find(t => t.id === id);
+            alert(`Teacher Details:\n\nName: ${teacher.name}\nSubject: ${teacher.subject}\nQualification: ${teacher.qualification}\nExperience: ${teacher.experience}\nSalary: ₹${teacher.salary.toLocaleString()}`);
+        }
+        
+        function editTeacher(id) {
+            alert(`Edit Teacher ${id} - This would open an edit form`);
+        }
+        
+        function deleteTeacher(id) {
+            if (confirm('Are you sure you want to delete this teacher?')) {
+                alert('Teacher deleted (in demo mode only)');
+            }
+        }
+        
+        function viewCourse(id) {
+            const course = schoolERP.database.courses.find(c => c.id === id);
+            alert(`Course Details:\n\nName: ${course.name}\nCode: ${course.code}\nClass: ${course.class}\nSubject: ${course.subject}\nTeacher: ${course.teacher}\nType: ${course.type}\n\n${course.description}`);
+        }
+        
+        function enrollCourse(id) {
+            alert('Course enrollment successful!');
+        }
+        
+        function searchStudents(query) {
+            schoolERP.searchStudents(query);
+        }
+        
+        function filterByClass(className) {
+            schoolERP.filterByClass(className);
+        }
+        
+        function filterByStatus(status) {
+            schoolERP.filterByStatus(status);
+        }
+        
+        function searchTeachers(query) {
+            schoolERP.searchTeachers(query);
+        }
+        
+        function filterByDepartment(dept) {
+            schoolERP.filterByDepartment(dept);
+        }
+        
+        function filterByDesignation(designation) {
+            schoolERP.filterByDesignation(designation);
+        }
+        
+        function showAdminSection(section) {
+            schoolERP.showAdminSection(section);
+        }
+        
+        function addUser() {
+            alert('Add User functionality - This would open a user creation form');
+        }
+        
+        function editUser(id) {
+            alert(`Edit User ${id} - This would open an edit form`);
+        }
+        
+        function deleteUser(id) {
+            if (confirm('Are you sure you want to delete this user?')) {
+                alert('User deleted (in demo mode only)');
+            }
+        }
+        
+        // Initialize the application when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            schoolERP.init();
+            
+            // Set up tab navigation
+            document.querySelectorAll('.nav-link').forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const moduleName = this.dataset.module;
+                    showModule(moduleName);
+                });
+            });
+            
+            // Set up chat input enter key
+            document.getElementById('chatInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendChatMessage();
+                }
+            });
+            
+            // Set up login input enter key
+            document.getElementById('loginPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performLogin();
+                }
+            });
+            
+            // Populate class dropdowns
+            const classes = ['Nursery', 'KG', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th'];
+            let classOptions = '<option value="">Select Class</option>';
+            classes.forEach(cls => {
+                classOptions += `<option value="${cls}">${cls}</option>`;
+            });
+            
+            document.getElementById('attendanceClass').innerHTML = classOptions;
+            document.getElementById('lmsClass').innerHTML = '<option value="">All Classes</option>' + classOptions;
+            
+            // Populate subject dropdown
+            const subjects = ['Mathematics', 'Science', 'English', 'Social Studies', 'Computer Science', 'Physical Education', 'Arts', 'Languages'];
+            let subjectOptions = '<option value="">All Subjects</option>';
+            subjects.forEach(subject => {
+                subjectOptions += `<option value="${subject}">${subject}</option>`;
+            });
+            document.getElementById('lmsSubject').innerHTML = subjectOptions;
+        });
+    </script>
+</body>
+</html>
